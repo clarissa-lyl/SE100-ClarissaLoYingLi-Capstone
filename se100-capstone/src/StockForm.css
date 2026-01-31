@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.add-stock-button {
+    background-color: rgb(70, 130, 180);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#input-field {
+    background-color: rgb(236, 236, 236);
+    width:200px;
+    height: 50px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+}
