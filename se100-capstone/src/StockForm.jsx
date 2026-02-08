@@ -1,7 +1,7 @@
 import './StockForm.css';
 
 import { useState, useContext } from 'react';
-import { StockContext } from '../contexts/StockContext.jsx';
+import { StockContext } from './contexts/StockContext.jsx';
 
 function StockForm() {
     const { addStock } = useContext(StockContext);
