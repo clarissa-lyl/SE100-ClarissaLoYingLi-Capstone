@@ -34,6 +34,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+      # ✅ NEW STEP: Create .env inside se100-capstone (Vite project root)
+      - name: Create env file
+        working-directory: ./se100-capstone
+        run: |
+          echo "VITE_ALPHA_VANTAGE_KEY=${{ secrets.VITE_ALPHA_VANTAGE_KEY }}" > .env
       - name: Install dependencies
         working-directory: ./se100-capstone
         run: npm ci
