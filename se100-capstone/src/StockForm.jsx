@@ -15,6 +15,7 @@ function StockForm() {
     // State to track error messages
     const [error, setError] = useState('');
 
+    //Handler for general input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setError(''); // Clear error when user starts typing
@@ -126,6 +127,7 @@ function StockForm() {
                     inputMode="numeric"
                     value={formData.quantity}
                     onChange={handleQuantityChange}
+                    maxLength={7}
                 />
                 </div>
 
@@ -140,6 +142,7 @@ function StockForm() {
                     pattern="^\d+(\.\d{1,2})?$"                
                     value={formData.purchasePrice}
                     onChange={handlePriceChange}
+                    maxLength={9}
                 />
                 </div>
 

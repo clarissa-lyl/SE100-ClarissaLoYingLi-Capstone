@@ -63,7 +63,7 @@ function StockList() {
                     <tbody>
                     {stocks.length === 0 ? (
                         <tr>
-                            <td colSpan={6} className="empty-row">
+                            <td colSpan={5} className="empty-row">
                             No stocks added yet.
                             </td>
                         </tr>
