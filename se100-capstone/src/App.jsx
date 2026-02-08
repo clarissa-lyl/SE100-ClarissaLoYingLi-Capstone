@@ -33,19 +33,28 @@ function App() {
   const stocks = ctx?.stocks ?? [];
 
   const metrics = useMemo(() => {
-    const totalValue = stocks.reduce((sum, s) => sum + (Number(s.currentPrice) * Number(s.quantity) || 0), 0);
-    const totalInvested = stocks.reduce((sum, s) => sum + (Number(s.purchasePrice) * Number(s.quantity) || 0), 0);
+    const totalValue = stocks.reduce(
+      (sum, s) => sum + (Number(s.currentPrice) * Number(s.quantity) || 0),
+      0
+    );
+    const totalInvested = stocks.reduce(
+      (sum, s) => sum + (Number(s.purchasePrice) * Number(s.quantity) || 0),
+      0
+    );
     const profitLoss = totalValue - totalInvested;
     const performance = totalInvested > 0 ? (profitLoss / totalInvested) * 100 : 0;
 
     return { totalValue, totalInvested, profitLoss, performance };
   }, [stocks]);
 
+  const plIsPositive = metrics.profitLoss >= 0;
+  const perfIsPositive = metrics.performance >= 0;
+
   return (
     <div className="app-shell">
       <header className="dashboard-header">
         <h1 className="dashboard-title">Finance Dashboard</h1>
-        <p className="dashboard-subtitle">Manage your stock portfolio</p>
+        <p className="dashboard-subtitle">Track your stock portfolio performance</p>
       </header>
 
       {/* KPI cards */}
@@ -68,15 +77,15 @@ function App() {
           title="Profit/Loss"
           value={money(metrics.profitLoss)}
           subtitle="Total gains/losses"
-          variant="red"
-          icon="↘"
+          variant='red'
+          icon={plIsPositive ? '↗' : '↘'}
         />
         <StatCard
           title="Performance"
           value={pct(metrics.performance)}
           subtitle="Return on investment"
-          variant="orange"
-          icon="↗"
+          variant='orange'
+          icon={perfIsPositive ? '↗' : '↘'}
         />
       </section>
 
