@@ -24,6 +24,40 @@ function StockForm() {
         }));
     };
 
+    // Handler specifically for quantity to enforce whole numbers
+    const handleQuantityChange = (e) => {
+        const value = e.target.value;
+
+        // Allow empty input (so user can backspace)
+        if (value === '') {
+            setFormData((prev) => ({ ...prev, quantity: '' }));
+            return;
+        }
+
+        // Only allow whole numbers
+        if (/^\d+$/.test(value)) {
+            setFormData((prev) => ({ ...prev, quantity: value }));
+        }
+    };
+
+    // Handler specifically for purchasePrice to enforce 2 decimal places
+    const handlePriceChange = (e) => {
+        const value = e.target.value;
+
+        // Allow empty input
+        if (value === '') {
+            setFormData((prev) => ({ ...prev, purchasePrice: '' }));
+            return;
+        }
+
+        // Allow numbers with up to 2 decimal places
+        const priceRegex = /^\d+(\.\d{0,2})?$/;
+
+        if (priceRegex.test(value)) {
+            setFormData((prev) => ({ ...prev, purchasePrice: value }));
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -62,43 +96,64 @@ function StockForm() {
     };
 
     return (
-        <form className="stock-form-container" onSubmit={handleSubmit}>
+        <div className="panel">
+            <div className="panel-header">
+                <h2 className="panel-title">Add a Stock</h2>
+                <p className="panel-subtitle">Add stocks to your portfolio</p>
+            </div>
 
-            <input
-                type="text"
-                className="input-field"
-                name="symbol"
-                placeholder="Stock Symbol"
-                value={formData.symbol}
-                onChange={handleChange}
-            />
-            <input
-                type="number"
-                className="input-field"
-                name="quantity"
-                min="1" // Prevents 0 and negative inputs via UI
-                step="1"
-                placeholder="Quantity"
-                value={formData.quantity}
-                onChange={handleChange}
-            />
-            <input
-                type="number"
-                className="input-field"
-                name="purchasePrice"
-                min="0.01"
-                step="0.01"
-                placeholder="Purchase Price"
-                value={formData.purchasePrice}
-                onChange={handleChange}
-            />
-            <button type="submit" className="submit-button">
+            <form className="stock-form" onSubmit={handleSubmit}>
+                <div className="field">
+                <label className="label">Stock Symbol</label>
+                <input
+                    type="text"
+                    className="input"
+                    name="symbol"
+                    placeholder="e.g., AAPL"
+                    value={formData.symbol}
+                    onChange={handleChange}
+                    maxLength={5}
+                />
+                </div>
+
+                <div className="field">
+                <label className="label">Quantity</label>
+                <input
+                    type="text"
+                    className="input"
+                    name="quantity"
+                    placeholder="0"
+                    inputMode="numeric"
+                    value={formData.quantity}
+                    onChange={handleQuantityChange}
+                />
+                </div>
+
+                <div className="field">
+                <label className="label">Purchase Price</label>
+                <input
+                    type="text"
+                    className="input"
+                    name="purchasePrice"
+                    placeholder="$ 0.00"
+                    inputMode="decimal"
+                    pattern="^\d+(\.\d{1,2})?$"                
+                    value={formData.purchasePrice}
+                    onChange={handlePriceChange}
+                />
+                </div>
+
+                <button type="submit" className="primary-btn">
+                <span className="btn-icon" aria-hidden>
+                    ⊕
+                </span>
                 Add Stock
-            </button>
+                </button>
 
-            {/* Display error message if it exists */}
-            {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
-        </form>    
+                {error && <p className="error">{error}</p>}
+
+            </form>
+        </div> 
     );
 }
 
