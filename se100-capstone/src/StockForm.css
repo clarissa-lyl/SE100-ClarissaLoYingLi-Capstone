@@ -1,26 +1,34 @@
-.container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    column-gap: 10px;
+.stock-form-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  flex-wrap: wrap;
+  row-gap: 10px;
 }
 
-.add-stock-button {
-    background-color: rgb(70, 130, 180);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
+.input-field {
+  background-color: rgb(236, 236, 236);
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
 }
 
-#input-field {
-    background-color: rgb(236, 236, 236);
-    width:200px;
-    height: 50px;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 16px;
+.submit-button {
+  background-color: #acb0ff;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.6;
 }

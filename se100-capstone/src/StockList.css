@@ -1,0 +1,39 @@
+.table-wrap {
+  margin-top: 18px;
+  overflow-x: auto;
+  color: #4f58f8;
+}
+
+.stock-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.85);
+  color: black;
+}
+
+.stock-table th,
+.stock-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.stock-table th {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.empty-state {
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+.pnl-positive {
+  color: #1a7f37;
+  font-weight: 600;
+}
+
+.pnl-negative {
+  color: #d1242f;
+  font-weight: 600;
+}
