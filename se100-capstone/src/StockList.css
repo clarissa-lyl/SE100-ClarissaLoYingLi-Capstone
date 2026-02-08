@@ -1,39 +1,108 @@
-.table-wrap {
-  margin-top: 18px;
-  overflow-x: auto;
-  color: #4f58f8;
+.stock-list {
+  padding: 18px;
+}
+
+.panel-header--list {
+  padding: 6px 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.table-surface {
+  margin-top: 12px;
+  border-radius: 14px;
+  overflow: hidden;
 }
 
 .stock-table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid #ddd;
-  background: rgba(255, 255, 255, 0.85);
-  color: black;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .stock-table th,
 .stock-table td {
-  padding: 12px;
-  border-bottom: 1px solid #eee;
+  padding: 14px 12px;
   text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.stock-table th {
-  background: rgba(0, 0, 0, 0.06);
+.stock-table thead th {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(8, 13, 26, 0.25);
 }
 
-.empty-state {
-  margin-top: 8px;
-  opacity: 0.8;
+.th-sort {
+  white-space: nowrap;
+}
+
+.sort {
+  margin-left: 6px;
+  font-size: 11px;
+  color: rgba(66, 133, 244, 0.95);
+}
+
+.stock-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.empty-row {
+  padding: 18px 12px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.symbol-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.symbol-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  background: rgba(64, 99, 255, 0.35);
+  border: 1px solid rgba(85, 130, 255, 0.35);
+  color: rgba(220, 230, 255, 0.95);
+}
+
+.symbol-text {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.pnl {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pnl-amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+}
+
+.pnl-arrow {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.pnl-pct {
+  font-size: 11px;
+  opacity: 0.7;
 }
 
 .pnl-positive {
-  color: #1a7f37;
-  font-weight: 600;
+  color: rgba(85, 220, 150, 0.95);
 }
 
 .pnl-negative {
-  color: #d1242f;
-  font-weight: 600;
+  color: rgba(255, 105, 105, 0.95);
 }
