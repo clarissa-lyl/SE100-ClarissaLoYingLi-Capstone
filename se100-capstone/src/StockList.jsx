@@ -1,7 +1,7 @@
 import './StockList.css';
 
 import { useContext } from "react";
-import { StockContext } from "../contexts/StockContext.jsx";
+import { StockContext } from "./contexts/StockContext.jsx";
 
 function formatMoney(n) {
   if (!Number.isFinite(n)) return "-";
