@@ -2,7 +2,7 @@ import { createContext, useState, useCallback, useEffect } from 'react';
 
 export const StockContext = createContext(null);
 
-const API_KEY = "L7I0SF4AEOYJHQPB";
+const API_KEY = import.meta.env.VITE_ALPHA_VANTAGE_KEY;
 
 export function StockProvider({ children }) {
     const [stocks, setStocks] = useState([]);
