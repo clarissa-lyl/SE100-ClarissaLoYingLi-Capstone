@@ -38,24 +38,24 @@ function StockList() {
                 <table className="stock-table">
                     <thead>
                         <tr>
-                        <th className="th-sort">
-                            Symbol <span className="sort">↑↓</span>
+                        <th>
+                            Symbol
                         </th>
-                        <th className="th-sort">
-                            Quantity <span className="sort">↑↓</span>
+                        <th>
+                            Quantity
                         </th>
-                        <th className="th-sort">
+                        <th>
                             Purchase
                             <br />
-                            Price <span className="sort">↑↓</span>
+                            Price
                         </th>
-                        <th className="th-sort">
+                        <th>
                             Current
                             <br />
-                            Price <span className="sort">↑↓</span>
+                            Price
                         </th>
-                        <th className="th-sort">
-                            Profit/Loss <span className="sort">↑↓</span>
+                        <th>
+                            Profit/Loss
                         </th>
                         </tr>
                     </thead>
