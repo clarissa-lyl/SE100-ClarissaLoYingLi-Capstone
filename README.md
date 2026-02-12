@@ -1,4 +1,4 @@
-# Finance Dashboard (React + Vite)
+# 📊 Finance Dashboard (React + Vite)
 
 ## Overview
 
@@ -7,7 +7,7 @@ It allows users to enter multiple stock purchases and automatically displays the
 
 ---
 
-## Features
+## ✨ Features
 
 - Add stock purchases with:
   - Stock symbol
@@ -19,9 +19,8 @@ It allows users to enter multiple stock purchases and automatically displays the
   - Current price per share
   - Profit/Loss per stock
 - Profit/Loss is:
-  - **Green** when positive
-  - **Red** when negative
-- Responsive and clean UI styled with CSS
+  - 🟢 **Green** when positive
+  - 🔴 **Red** when negative
 
 ---
 
@@ -32,6 +31,8 @@ It allows users to enter multiple stock purchases and automatically displays the
 - **JavaScript (ES6+)**
 - **CSS**
 - **AlphaVantage API**
+- **Vitest**
+- **React Testing Library**
 
 ---
 
@@ -62,6 +63,10 @@ VITE_ALPHA_VANTAGE_KEY=demo
 ```bash
 npm run dev
 ```
+### Execute the tests
+```bash
+npm run test
+```
 
 ---
 
@@ -75,6 +80,10 @@ npm run dev
 - Challenge: Generating the entire project upfront using GenAI tools made debugging difficult when the application failed to load.
 - Resolution: I shifted to an incremental development approach, validating each change locally and using GenAI tools for focused guidance, which improved both debugging and architectural understanding.
 
+### 3. Challenge: Asynchronous Testing & React State Updates
+- Challenge: Handling asynchronous state updates during testing (e.g., API calls, effects).
+- Resolution: Used proper async assertions (waitFor) to eliminate act warnings and ensure reliable test execution.
+
 ---
 
 ## Improvements Beyond Baseline Requirements
@@ -83,4 +92,4 @@ npm run dev
 - 4 portfolio KPI cards (Total Value, Total Invested, Profit/Loss, Performance) with derived values memoised with useMemo for performance.
 - Dynamic visual indicators (↗ / ↘) that update based on computed Profit/Loss and Performance metrics.
 - Secure configuration management for the AlphaVantage API key using environment variables and GitHub Actions secrets.
-- Defensive API handling to validate API responses and prevent UI failures during fetch errors
+- Defensive API handling to validate API responses and prevent UI failures during fetch errors.
