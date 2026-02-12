@@ -11,7 +11,7 @@ export function StockProvider({ children }) {
 
     const fetchCurrentPrice = useCallback(async (symbol) => {
 
-        // ✅ Defensive guard to block calls if key missing
+        // Defensive guard to block calls if key missing
         if (!hasApiKey) {
             console.warn(
                 "Missing VITE_ALPHA_VANTAGE_KEY. Alpha Vantage request skipped."
@@ -19,21 +19,30 @@ export function StockProvider({ children }) {
             return null;
         }
 
-        const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`;
-        const response = await fetch(url);
-        const data = await response.json();
+        try {
+            const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`;
+            const response = await fetch(url);
+            const data = await response.json();
 
-        if (data?.Note || data?.Information || data?.Error_Message) return null;
+            // Handle API rate limit & errors
+            if (data?.Note || data?.Information || data?.Error_Message) return null;
 
-        const price = Number(data?.["Global Quote"]?.["05. price"]);
-        if (!Number.isFinite(price) || price <= 0) return null;
+            const priceStr = data?.["Global Quote"]?.["05. price"];
+            const price = Number(priceStr);
 
-        return price;
+            if (!Number.isFinite(price) || price <= 0) return null;
+
+            return price;
+        } catch (e) {
+            console.error("Error fetching stock data:", e);
+            return null;
+        }
+
     }, []);
 
     const addStock = useCallback(
         async ({ symbol, quantity, purchasePrice }) => {
-            // ✅ Defensive guard to block calls if key missing
+            // Defensive guard to block calls if key missing
             if (!hasApiKey) {
                 console.warn(
                     "Missing VITE_ALPHA_VANTAGE_KEY. Alpha Vantage request skipped."
@@ -41,24 +50,20 @@ export function StockProvider({ children }) {
                 return false;
             }
 
-            try {
-                const currentPrice = await fetchCurrentPrice(symbol);
-                if (currentPrice == null) return false;
+            const currentPrice = await fetchCurrentPrice(symbol);
+            if (currentPrice == null) return false;
 
-                const newStock = {
-                    id: crypto.randomUUID(),
-                    symbol,
-                    quantity,
-                    purchasePrice,
-                    currentPrice,
-                };
+            const newStock = {
+                id: crypto.randomUUID(),
+                symbol: symbol.toUpperCase(),
+                quantity,
+                purchasePrice,
+                currentPrice,
+            };
 
-                setStocks((prev) => [...prev, newStock]);
-                return true;
-            } catch (e) {
-                console.error("Error fetching stock data:", e);
-                return false;
-            }
+            setStocks((prev) => [...prev, newStock]);
+            return true;
+
         },
         [fetchCurrentPrice]
     );
