@@ -17,14 +17,19 @@ describe('App', () => {
     expect(screen.getByText('Track your stock portfolio performance')).toBeInTheDocument();
   });
 
-  it('renders KPI cards', () => {
+  it('renders KPI titles (note: Profit/Loss appears twice on the page)', () => {
     renderWithStocks([]);
     expect(screen.getByText('Total Value')).toBeInTheDocument();
     expect(screen.getByText('Total Invested')).toBeInTheDocument();
 
-    // Profit/Loss appears in KPI card AND table header
+    // Profit/Loss appears in KPI card AND in StockList table header
     expect(screen.getAllByText('Profit/Loss').length).toBeGreaterThan(0);
 
     expect(screen.getByText('Performance')).toBeInTheDocument();
+  });
+
+  it('renders footer note', () => {
+    renderWithStocks([]);
+    expect(screen.getByText('Powered by Alpha Vantage (Free Tier)')).toBeInTheDocument();
   });
 });
