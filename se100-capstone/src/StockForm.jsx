@@ -1,10 +1,8 @@
 import './StockForm.css';
 
-import { useState, useContext } from 'react';
-import { StockContext } from './contexts/StockContext.jsx';
+import { useState } from 'react';
 
-function StockForm() {
-    const { addStock } = useContext(StockContext);
+function StockForm({ onAddStock }) {
 
     const [formData, setFormData] = useState({
         symbol: '',
@@ -70,21 +68,22 @@ function StockForm() {
         };
 
         // 2. Check if any field is empty or not a number
-        // (!symbol catches "", isNaN catches failed number conversions but allows 0)
         if (!parsedData.symbol || !Number.isFinite(parsedData.quantity) || !Number.isFinite(parsedData.purchasePrice)) {
             setError('Please fill up all the fields.');
             return;
         }
         
-        // 3. Final safety check (especially if browser min is bypassed)
-        // Now that we know they ARE numbers, are they the RIGHT numbers?
+        // 3. Final safety check
         if (parsedData.quantity <= 0 || parsedData.purchasePrice <= 0) {
             setError('Quantity and Price must be greater than zero.');
             return;
         }
 
-        // 4. Validate symbol via AlphaVantage and add stock if valid (handled in context)
-        const ok = await addStock(parsedData);
+        // 4. Validate symbol via AlphaVantage and add stock if valid
+        const ok =
+            typeof onAddStock === 'function'
+                ? await onAddStock(parsedData)
+                : false;
 
         if (!ok) {
             setError('Invalid stock symbol or API temporarily unavailable (rate limit)');

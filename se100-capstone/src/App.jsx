@@ -4,9 +4,15 @@ import StockForm from './StockForm.jsx';
 import StockList from './StockList.jsx';
 import { StockContext } from './contexts/StockContext.jsx';
 
+/* ================================
+   Utility Format Functions
+================================ */
 function money(n) {
   if (!Number.isFinite(n)) return '$0.00';
-  return n.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
+  return n.toLocaleString(undefined, {
+    style: 'currency',
+    currency: 'USD'
+  });
 }
 
 function pct(n) {
@@ -15,34 +21,83 @@ function pct(n) {
   return `${sign}${n.toFixed(2)}%`;
 }
 
+/* ================================
+   Portfolio Calculation Functions
+================================ */
+
+// Calculate total invested
+function calculateTotalInvested(stocks) {
+  return stocks.reduce((sum, s) => {
+    const qty = Number(s.quantity);
+    const buy = Number(s.purchasePrice);
+
+    if (!Number.isFinite(qty) || !Number.isFinite(buy)) return sum;
+
+    return sum + qty * buy;
+  }, 0);
+}
+
+// Calculate total current value
+function calculateTotalValue(stocks) {
+  return stocks.reduce((sum, s) => {
+    const qty = Number(s.quantity);
+    const current = Number(s.currentPrice);
+
+    if (!Number.isFinite(qty) || !Number.isFinite(current)) return sum;
+
+    return sum + qty * current;
+  }, 0);
+}
+
+// Calculate portfolio profit/loss
+function calculatePortfolioProfitLoss(totalValue, totalInvested) {
+  const profitLoss = totalValue - totalInvested; // Profit/Loss formula
+
+  const performance =
+    totalInvested > 0
+      ? (profitLoss / totalInvested) * 100
+      : 0;
+
+  return { profitLoss, performance };
+}
+
+/* ================================
+   Reusable Stat Card Component
+================================ */
+
 function StatCard({ title, value, subtitle, variant, icon }) {
   return (
     <div className={`stat-card stat-${variant}`}>
       <div className="stat-top">
         <div className="stat-title">{title}</div>
-        <div className="stat-icon" aria-hidden>{icon}</div>
+        <div className="stat-icon" aria-hidden>
+          {icon}
+        </div>
       </div>
+
       <div className="stat-value">{value}</div>
       <div className="stat-subtitle">{subtitle}</div>
     </div>
   );
 }
 
+/* ================================
+   Main App Component (Parent)
+================================ */
+
 function App() {
   const ctx = useContext(StockContext);
-  const stocks = ctx?.stocks ?? [];
 
+  const stocks = ctx?.stocks ?? [];
+  const addStock = ctx?.addStock;
+
+  // Use abstracted calculation functions
   const metrics = useMemo(() => {
-    const totalValue = stocks.reduce(
-      (sum, s) => sum + (Number(s.currentPrice) * Number(s.quantity) || 0),
-      0
-    );
-    const totalInvested = stocks.reduce(
-      (sum, s) => sum + (Number(s.purchasePrice) * Number(s.quantity) || 0),
-      0
-    );
-    const profitLoss = totalValue - totalInvested;
-    const performance = totalInvested > 0 ? (profitLoss / totalInvested) * 100 : 0;
+    const totalInvested = calculateTotalInvested(stocks);
+    const totalValue = calculateTotalValue(stocks);
+
+    const { profitLoss, performance } =
+      calculatePortfolioProfitLoss(totalValue, totalInvested);
 
     return { totalValue, totalInvested, profitLoss, performance };
   }, [stocks]);
@@ -52,12 +107,16 @@ function App() {
 
   return (
     <div className="app-shell">
+
+      {/* Header */}
       <header className="dashboard-header">
         <h1 className="dashboard-title">Finance Dashboard</h1>
-        <p className="dashboard-subtitle">Track your stock portfolio performance</p>
+        <p className="dashboard-subtitle">
+          Track your stock portfolio performance
+        </p>
       </header>
 
-      {/* KPI cards */}
+      {/* KPI Cards */}
       <section className="stats-grid">
         <StatCard
           title="Total Value"
@@ -66,6 +125,7 @@ function App() {
           variant="blue"
           icon="$"
         />
+
         <StatCard
           title="Total Invested"
           value={money(metrics.totalInvested)}
@@ -73,35 +133,39 @@ function App() {
           variant="purple"
           icon="◷"
         />
+
         <StatCard
           title="Profit/Loss"
           value={money(metrics.profitLoss)}
           subtitle="Total gains/losses"
-          variant='red'
+          variant="red"
           icon={plIsPositive ? '↗' : '↘'}
         />
+
         <StatCard
           title="Performance"
           value={pct(metrics.performance)}
           subtitle="Return on investment"
-          variant='orange'
+          variant="orange"
           icon={perfIsPositive ? '↗' : '↘'}
         />
       </section>
 
-      {/* Main cards */}
+      {/* Main Layout */}
       <main className="dashboard-grid">
         <section className="card">
-          <StockForm />
+          {/* Parent passes function via props */}
+          <StockForm onAddStock={addStock} />
         </section>
 
         <section className="card">
-          <StockList />
+          {/* Parent passes data via props */}
+          <StockList stocks={stocks} />
         </section>
       </main>
 
       <div className="footer-divider" />
-      
+
       <footer className="app-footer-note">
         Powered by Alpha Vantage (Free Tier)
       </footer>
